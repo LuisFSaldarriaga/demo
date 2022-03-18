@@ -1,10 +1,13 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Hacedor;
-import org.springframework.data.repository.CrudRepository;
+
+import java.util.ArrayList;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface repositoryHacedor extends CrudRepository<Hacedor,Long> {
-    
+public interface repositoryHacedor extends JpaRepository<Hacedor,Long> {
+
+    ArrayList<Hacedor> findByJob(String job);
 }

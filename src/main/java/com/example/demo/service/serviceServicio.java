@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import com.example.demo.repository.repositoryHacedor;
 import com.example.demo.model.Consulta;
@@ -26,52 +25,12 @@ public class serviceServicio {
         return (ArrayList<Servicio>) servicioRepository.findAll();
     }
 
-    protected Optional<Servicio> getServiceById(String service){
-        return servicioRepository.findById(Long.parseLong(service));
+    protected Servicio getServiceById(String service){
+        return servicioRepository.getById(Long.parseLong(service));
     }
 
-    protected Optional<Hacedor> getHacedorById(String hacedor){
-        return hacedorRepository.findById(Long.parseLong(hacedor));
-    }
-
-    protected Hacedor getHacedorService(Long id){
-        Optional<Hacedor> h = getHacedorById(String.valueOf(id));
-        try{
-            if (h.isPresent()){
-                return h.get();
-            }
-        }catch(Exception e){
-            
-            return null;
-        }
-        return h.get();
-    }
-
-    protected String serviceFormat(ArrayList<String> servicesf){
-
-        String format = "Servicios Compatibles: \n";
-
-        try {
-            for (String I:servicesf){
-                Optional<Servicio> sid = getServiceById(I);
-                
-                if (sid.isPresent()){
-                   Servicio service=sid.get();
-                    format = format + "Id del servicio:"+ service.getID() + "\n" + "Descripción: " + service.getDescryption() + "\n" + "valor: "+service.getValue();
-
-                } else{
-                    return format="error.";
-                }
-            }
-
-            return format;
-                
-        } catch (Exception e) {
-            format = " ocurrió un error. " + e;
-            return format;
-        }
-            
-    
+    protected Hacedor getHacedorById(String hacedor){
+        return hacedorRepository.getById(Long.parseLong(hacedor));
     }
 
     public Servicio requestServicioService(Servicio servicio){
@@ -81,17 +40,13 @@ public class serviceServicio {
     protected ArrayList<Long> findMatchService(Consulta props, Hacedor hacedor){
         ArrayList<Long> serviceIDs = new ArrayList<Long>();
         try {
+        
+            ArrayList<Servicio> serviceList = servicioRepository.findByType(hacedor.getJob());
             
-            ArrayList<Servicio> serviceList = getServices();
-
-            for (Servicio s:serviceList) {
-
-                if(s.getType()==hacedor.getJob()){
-                    serviceIDs.add(s.getID());
-                } else {
-                    continue;
-                }
+            for(Servicio i:serviceList){
+                serviceIDs.add(i.getID());
             }
+
              
         } catch (Exception e) {
             System.out.println("ha ocurrido un error en el emparejamiento: "+e);
@@ -101,13 +56,23 @@ public class serviceServicio {
     }
 
     public String matchServicioService(Consulta consulta){
+        
+        String format = "Servicios Compatibles: \n\n";
+        Hacedor hacedor = getHacedorById(consulta.getHacedor());
 
-        Hacedor hacedor = getHacedorService(Long.parseLong(consulta.getHacedor()));
-        String stat = "servicios: ";
-         for (Long i:findMatchService(consulta,hacedor)){
-             stat = stat + i;
-         }
-        return stat;
+        try {
+            for (Long I:findMatchService(consulta,hacedor)){
+                Servicio sid = getServiceById(String.valueOf(I));
+                format = format + "Id del servicio:"+ sid.getID() + "\n" + "Descripción: " + sid.getDescryption() + "\n" + "valor: "+sid.getValue() + "\n\n";
+
+            }
+
+            return format;
+                
+        } catch (Exception e) {
+            format = " ocurrió un error. " + e;
+            return format;
+        }
 
 
     }
