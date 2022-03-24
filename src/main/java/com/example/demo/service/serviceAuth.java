@@ -33,6 +33,7 @@ public class serviceAuth {
                 Cliente c = clienteRepository.findByEmail(user);
 
                 if (c.getPassword().equals(password)){
+                    token.setID(String.valueOf(c.getID()));
                     token.setPassword(password);
                     token.setEmail(user);
                     token.setRol("cliente");
@@ -54,6 +55,7 @@ public class serviceAuth {
                 Hacedor h = hacedorRepository.findByEmail(user);
 
                 if (h.getPassword().equals(password)){
+                    token.setID(String.valueOf(h.getID()));
                     token.setPassword(password);
                     token.setEmail(user);
                     token.setRol("hacedor");
