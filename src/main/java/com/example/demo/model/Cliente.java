@@ -16,13 +16,13 @@ public class Cliente {
     @Column(length = 45, nullable = false)
     private String name;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11, unique= true, nullable = false)
     private String document;
 
     @Column(length = 45, nullable = false)
     private String direccion;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, unique= true, nullable = false)
     private String email;
 
     @Column(length = 45, nullable = false)

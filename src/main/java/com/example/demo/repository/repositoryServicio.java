@@ -10,5 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface repositoryServicio extends JpaRepository<Servicio, Long> {
     
+    Servicio findByID(String ID);
     ArrayList<Servicio> findByType(String type);
+    ArrayList<Servicio> findByValue(String value);
+    ArrayList<Servicio> findByCliente(String cliente);
+    ArrayList<Servicio> findByHacedor(String hacedor);
+    ArrayList<Servicio> findByStatus(String status);
+
 }

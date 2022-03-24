@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.model.Consulta;
 import com.example.demo.model.Hacedor;
 import com.example.demo.service.serviceHacedor;
 
@@ -15,6 +16,16 @@ public class restHacedor {
     
     @Autowired
     serviceHacedor hacedorService;
+
+    @PostMapping("/ingresar")
+    public Hacedor loginData(@RequestBody Consulta props ){
+        return hacedorService.getLogin(props);
+    }
+
+    @PostMapping("/consultar")
+    public Hacedor findHacedor(@RequestBody Consulta props ){
+        return hacedorService.getUserService(props);
+    }
 
     @PostMapping("/registrar")
     public Hacedor saveHacedor(@RequestBody Hacedor hacedor){
