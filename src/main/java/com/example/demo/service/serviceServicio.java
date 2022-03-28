@@ -53,7 +53,6 @@ public class serviceServicio {
     public ArrayList<Servicio> getServicesByH(Consulta props){
         Hacedor hacedor = hacedorRepository.findById(Long.parseLong(props.getHacedor())).get();
         ArrayList<Servicio> selected = servicioRepository.findByHacedor(hacedor);
-        System.out.println(selected);
         return selected;
     }
 
