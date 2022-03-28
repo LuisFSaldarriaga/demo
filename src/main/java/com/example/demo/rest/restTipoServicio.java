@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.model.Consulta;
 import com.example.demo.model.TipoServicio;
 import com.example.demo.service.serviceTipoServicio;
 
@@ -24,9 +25,24 @@ public class restTipoServicio {
         return servicioTipoService.getServices();
     }
 
+    @GetMapping("/disponibles")
+    public ArrayList<String> requestAvailable(){
+        return servicioTipoService.getAvailable();
+    }
+    
+    @PostMapping("/solicitarc")
+    public ArrayList<TipoServicio> requestServicesByHacedor(@RequestBody Consulta props){
+        return servicioTipoService.getServicesByHacedor(props);
+    }
+
     @PostMapping("/nuevo")
     public TipoServicio requestService(@RequestBody TipoServicio servicio){
         return this.servicioTipoService.requestNewType(servicio);
+    }
+
+    @PostMapping("/nuevos")
+    public void requestServiceMultiple(@RequestBody ArrayList<TipoServicio> servicios){
+        this.servicioTipoService.requesNewTypeMultiple(servicios);
     }
 
 }

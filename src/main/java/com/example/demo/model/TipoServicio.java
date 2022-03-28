@@ -8,11 +8,14 @@ public class TipoServicio {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private Long ID;
 
     @Column(length = 45, nullable = false)
     private String type;
+
+    @Column
+    private Long hacedorid;
 
 // ------Gettters & Setters-------
 
@@ -30,7 +33,17 @@ public class TipoServicio {
 
     public void setType(String type) {
         this.type = type;
-    }  
+    }
+
+    public Long getHacedorid() {
+        return hacedorid;
+    }
+
+    public void setHacedorid(Long hacedorid) {
+        this.hacedorid = hacedorid;
+    }
+
+    
 
 }
 

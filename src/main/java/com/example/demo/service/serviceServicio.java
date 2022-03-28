@@ -6,7 +6,9 @@ import com.example.demo.repository.repositoryHacedor;
 import com.example.demo.model.Consulta;
 import com.example.demo.model.Hacedor;
 import com.example.demo.model.Servicio;
+import com.example.demo.model.TipoServicio;
 import com.example.demo.repository.repositoryServicio;
+import com.example.demo.service.serviceTipoServicio;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class serviceServicio {
     @Autowired
     repositoryHacedor hacedorRepository;
 
+    @Autowired
+    serviceTipoServicio tipoServicioService;
+
     protected ArrayList<Servicio> getServices(){
         return (ArrayList<Servicio>) servicioRepository.findAll();
     }
@@ -33,18 +38,37 @@ public class serviceServicio {
         return hacedorRepository.getById(Long.parseLong(hacedor));
     }
 
+    public Servicio getConsultService(Long serviceid){
+        return servicioRepository.findByID(serviceid);
+    }
+
     public Servicio requestServicioService(Servicio servicio){
         return servicioRepository.save(servicio);
+    }
+
+    public ArrayList<Servicio> getHacedorServicios(Hacedor hacedor){
+        return servicioRepository.findByHacedor(hacedor);
+    }
+
+    public ArrayList<Servicio> getServicesByH(Consulta props){
+        Hacedor hacedor = hacedorRepository.findById(Long.parseLong(props.getHacedor())).get();
+        ArrayList<Servicio> selected = servicioRepository.findByHacedor(hacedor);
+        System.out.println(selected);
+        return selected;
     }
 
     protected ArrayList<Long> findMatchService(Consulta props, Hacedor hacedor){
         ArrayList<Long> serviceIDs = new ArrayList<Long>();
         try {
+            ArrayList<TipoServicio> jobs = tipoServicioService.getServicesByHacedor(props);
+
+            for(TipoServicio t:jobs){
         
-            ArrayList<Servicio> serviceList = servicioRepository.findByType(hacedor.getJob());
+                ArrayList<Servicio> serviceList = servicioRepository.findByType(t.getType());
             
-            for(Servicio i:serviceList){
-                serviceIDs.add(i.getID());
+                for(Servicio i:serviceList){
+                    serviceIDs.add(i.getID());
+                }
             }
 
              
@@ -55,25 +79,28 @@ public class serviceServicio {
         return serviceIDs;
     }
 
-    public String matchServicioService(Consulta consulta){
-        
-        String format = "Servicios Compatibles: \n\n";
+    public ArrayList<Servicio> matchServicioService(Consulta consulta){
+        ArrayList<Servicio> selected = new ArrayList<Servicio>();
         Hacedor hacedor = getHacedorById(consulta.getHacedor());
 
         try {
             for (Long I:findMatchService(consulta,hacedor)){
                 Servicio sid = getServiceById(String.valueOf(I));
-                format = format + "Id del servicio:"+ sid.getID() + "\n" + "Descripción: " + sid.getDescryption() + "\n" + "valor: "+sid.getValue() + "\n\n";
-
+                if(sid.getStatus().equals("pairing")){
+                    selected.add(sid);
+                } else {
+                    continue;
+                }
             }
 
-            return format;
+            return selected;
                 
         } catch (Exception e) {
-            format = " ocurrió un error. " + e;
-            return format;
+            return selected;
         }
 
 
     }
+
+    
 }

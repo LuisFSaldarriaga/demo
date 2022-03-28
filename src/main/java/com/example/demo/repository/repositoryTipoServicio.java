@@ -12,6 +12,7 @@ public interface repositoryTipoServicio extends JpaRepository<TipoServicio, Long
     
     TipoServicio findByID(String ID);
     ArrayList<TipoServicio> findByType(String type);
+    ArrayList<TipoServicio> findByHacedorid(Long hacedorid);
 
 
 }

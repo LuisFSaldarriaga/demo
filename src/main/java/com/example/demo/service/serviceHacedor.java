@@ -32,14 +32,14 @@ public class serviceHacedor {
 
     public Hacedor getUserService(Consulta props){
 
-        if( !Objects.isNull(props.getID()) ){
+        if( Objects.nonNull(props.getID()) ){
             return hacedorRepository.findByID(Long.parseLong(props.getID()));
-        }else if( !Objects.isNull(props.getEmail()) ){
+        }else if( Objects.nonNull(props.getEmail()) ){
             return hacedorRepository.findByEmail(props.getEmail());
         }else{
-            return hacedorRepository.findByDocument(props.getDocument());
+            return hacedorRepository.findByDocument(props.getDocument());    
         }
-
+    
     }
 
     public Hacedor saveUserService(Hacedor hacedor){
