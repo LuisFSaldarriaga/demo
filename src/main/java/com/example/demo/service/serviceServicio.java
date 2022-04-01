@@ -8,8 +8,6 @@ import com.example.demo.model.Hacedor;
 import com.example.demo.model.Servicio;
 import com.example.demo.model.TipoServicio;
 import com.example.demo.repository.repositoryServicio;
-import com.example.demo.service.serviceTipoServicio;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

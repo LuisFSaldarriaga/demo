@@ -3,7 +3,6 @@ package com.example.demo.rest;
 import java.util.ArrayList;
 
 import com.example.demo.model.Consulta;
-import com.example.demo.model.Hacedor;
 import com.example.demo.model.Servicio;
 import com.example.demo.service.serviceServicio;
 
